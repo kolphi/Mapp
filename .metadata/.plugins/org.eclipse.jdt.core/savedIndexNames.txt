@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+C:\Users\Philipp\Desktop\HAGENBERG\LinzMapp\Mapp\.metadata\.plugins\org.eclipse.jdt.core
+585465722.index
+3435054881.index
+988492233.index
