@@ -1,0 +1,10 @@
+1330881791528	Rename local variable 'GSSharedPrefs'
+1330884318942	Rename local variable 'links'
+1330884323563	Rename local variable 'jsonlinks'
+1330885370461	Rename type 'DBUserInput'
+1330885389907	Rename type 'DBUserInputHelper'
+1330888266869	Copy compilation unit
+1330894649845	Rename type 'GamerCursorAdapter'
+1330895651301	Rename method 'deleteHort'
+1330895914186	Rename local variable 'mCursor'
+1330896953884	Rename local variable 'spots'

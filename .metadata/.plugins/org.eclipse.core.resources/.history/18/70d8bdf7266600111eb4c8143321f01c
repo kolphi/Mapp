@@ -1,0 +1,114 @@
+package com.drinkdrankwasted.android.bac.db;
+
+import com.drinkdrankwasted.android.bac.R;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DBUserInputHelper extends SQLiteOpenHelper {
+
+	private static final String DB_NAME = "user_input.db";
+	private static final int DB_VERSION = 1;
+	
+	private Context ctx;
+	
+	private static final String ENTERED_PLAYER_CREATE =
+		"CREATE TABLE entered_player (" +
+		"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"name TEXT NOT NULL, " +
+		"cm INTEGER NOT NULL, " +
+		"kg INTEGER NOT NULL, " +
+		"pic INTEGER DEFAULT 0, " +
+		"male INTEGER DEFAULT 0" +
+		")";
+	private static final String ENTERED_ALC_CREATE =
+		"CREATE TABLE entered_alc (" +
+		"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"name TEXT NOT NULL, " +
+		"percent INTEGER NOT NULL, " +
+		"mixing INTEGER NOT NULL" +
+		")";
+	private static final String AVAILABLE_ALC_CREATE =
+		"CREATE TABLE available_alc (" +
+		"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"name TEXT NOT NULL, " +
+		"percent INTEGER NOT NULL, " +
+		"mixing INTEGER NOT NULL" +
+		")";
+	private static final String PREV_GAMES_CREATE =
+		"CREATE TABLE prev_games (" +
+		"_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		"name TEXT NOT NULL, " +
+		"start_time INTEGER NOT NULL, " +
+		"end_time INTEGER NULL, " +
+		"person_count INTEGER DEFAULT 0, " +
+		"saved INTEGER DEFAULT 0, " +
+		"av_gram INTEGER DEFAULT 0" +
+		")";
+	
+	private static final String ENTERED_PLAYER_DROP = 
+			"DROP TABLE IF EXISTS entered_player";
+	private static final String ENTERED_ALC_DROP = 
+		"DROP TABLE IF EXISTS entered_alc";
+	private static final String AVAILABLE_ALC_DROP = 
+		"DROP TABLE IF EXISTS available_alc";
+	private static final String PREV_GAMES_DROP = 
+		"DROP TABLE IF EXISTS prev_games";
+
+	
+	public DBUserInputHelper(Context context) {
+		super(context, DB_NAME, null, DB_VERSION);
+		ctx = context;
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		db.execSQL(ENTERED_PLAYER_CREATE);
+		db.execSQL(ENTERED_ALC_CREATE);
+		db.execSQL(AVAILABLE_ALC_CREATE);
+		db.execSQL(PREV_GAMES_CREATE);
+		
+		addDefaultAlcohols(db);
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL(ENTERED_PLAYER_DROP);
+		db.execSQL(ENTERED_ALC_DROP);
+		db.execSQL(AVAILABLE_ALC_DROP);
+		db.execSQL(PREV_GAMES_DROP);
+		onCreate(db);
+	}
+	
+	private void addDefaultAlcohols(SQLiteDatabase db){
+		addDefaultAlc(ctx.getString(R.string.alc_beer), 5, 1, db);
+		addDefaultAlc(ctx.getString(R.string.alc_wine), 12, 1, db);
+		addDefaultAlc(ctx.getString(R.string.alc_whisky), 40, 0, db);
+		addDefaultAlc(ctx.getString(R.string.alc_gin), 40, 0, db);
+		addDefaultAlc(ctx.getString(R.string.alc_rum), 40, 0, db);
+		addDefaultAlc(ctx.getString(R.string.alc_tequila), 40, 0, db);
+		addDefaultAlc(ctx.getString(R.string.alc_vodka), 40, 0, db);
+	}
+	
+	ContentValues cv;
+	private void addDefaultAlc(String name, float percent, int mixing, SQLiteDatabase db){
+		cv = new ContentValues();
+		
+		cv.put(DBUserInput.EA_KEY_NAME, name);
+		cv.put(DBUserInput.EA_KEY_PERCENT, percent);
+		cv.put(DBUserInput.EA_KEY_MIXING, mixing);
+		
+		db.insert(DBUserInput.EA_DATABASE_TABLE, null, cv);
+	}
+	
+	public void resetAlcsAndNames(SQLiteDatabase db){
+		
+		db.delete(DBUserInput.EA_DATABASE_TABLE, null, null);
+		db.delete(DBUserInput.EP_DATABASE_TABLE, null, null);
+		
+		addDefaultAlcohols(db);
+	
+	}
+
+}

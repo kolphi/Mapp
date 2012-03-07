@@ -1,0 +1,59 @@
+package at.fhooe.mc.linzbrowser.android;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+public class HortAdapter extends ArrayAdapter<DataHort> {
+	private ArrayList<DataHort> items;
+	private LayoutInflater li;
+	
+	public HortAdapter(Context context, int id, int name,ArrayList<DataHort> items) {
+		super(context, id, name, items);
+		
+		this.items = items;
+		li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+	
+	static class ViewHolder {
+		public TextView title;
+		public TextView sub;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		
+		if (null == convertView) {
+		    Log.i("ANDY","Position not previously used, so inflating");
+		    convertView = inflater.inflate(R.layout.player_simple_list, null);
+		    // Creates a ViewHolder and store references to the two children views
+		    // we want to bind data to.
+		    holder = new ViewHolder();
+		    convertView.setTag(holder);
+		} else {
+		    // Get the ViewHolder back to get fast access to the TextView
+		    // and the ImageView.
+		    holder = (ViewHolder) convertView.getTag();
+		}
+
+		
+		View v = super.getView(position, convertView, parent);
+
+		TextView title = (TextView) v.findViewById(R.id.list_element_2_lines_title);
+		TextView sub = (TextView) v.findViewById(R.id.list_element_2_lines_sub);
+
+		title.setText(items.get(position).name);
+		sub.setText(items.get(position).address);
+
+		return v;
+	}
+	
+}
+
+

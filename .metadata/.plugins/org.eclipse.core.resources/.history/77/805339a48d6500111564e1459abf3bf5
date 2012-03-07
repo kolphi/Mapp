@@ -1,0 +1,174 @@
+package at.fhooe.mc.linzbrowser.android;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+
+public class Map extends MapActivity {
+
+	MapView mMapView;
+	MapController mMapController;
+
+	GeoPoint mGeoPoint = new GeoPoint(48210907, 13487763);
+	public LocationManager mLocationManager;
+	private MyLocationOverlay mMyOverlay;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.map);
+
+		mMapView = (MapView) findViewById(R.id.mapview);
+		mMapView.setBuiltInZoomControls(true);
+		mMapView.setSatellite(false);
+
+		mMapController = mMapView.getController();
+		mMapController.setCenter(mGeoPoint);
+		mMapController.setZoom(15);
+
+		mMyOverlay = new MyLocationOverlay(this, mMapView) {
+
+			@Override
+			public synchronized void onLocationChanged(Location location) {
+				super.onLocationChanged(location);
+				final GeoPoint meinePosition = new GeoPoint(
+						(int) (location.getLatitude() * 1E6),
+						(int) (location.getLongitude() * 1E6));
+				// mMapController.animateTo(meinePosition);
+			}
+
+		};
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		List<Overlay> mapOverlays = mMapView.getOverlays();
+		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher);
+		ItemizedOverlay itemizedoverlay = new ItemizedOverlay(drawable);
+
+		GeoPoint point = new GeoPoint(48225811, 13528545);
+		OverlayItem overlayitem = new OverlayItem(point, "Home",
+				"Daheim ist am schönsten");
+
+		GeoPoint point1 = new GeoPoint(48226254, 13521958);
+		OverlayItem overlayitem1 = new OverlayItem(point1,
+				"I think this is great", "Yeah");
+
+		itemizedoverlay.addOverlay(overlayitem);
+		mapOverlays.add(itemizedoverlay);
+
+		itemizedoverlay.addOverlay(overlayitem1);
+		mapOverlays.add(itemizedoverlay);
+		
+		/* --- Schleife für viele GeoPoints
+		int startLong = 48225811;
+		int startLati = 13528545;
+		GeoPoint myGeo;
+		OverlayItem myItem;
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				myGeo = new GeoPoint(startLong+(i*100000), startLati+(j*100000));
+				myItem = new OverlayItem(myGeo, ""+i, ""+j);
+				itemizedoverlay.addOverlay(myItem);
+				mapOverlays.add(itemizedoverlay);
+			}
+		}
+		
+
+		*/ 
+		
+
+	}
+
+	@Override
+	protected void onPause() {
+		mMyOverlay.disableMyLocation();
+		mMapView.getOverlays().remove(mMyOverlay);
+		mLocationManager.removeUpdates(mMyOverlay);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				5000L, 20.0f, mMyOverlay);
+
+		mMapView.getOverlays().add(mMyOverlay);
+		mMyOverlay.enableMyLocation();
+
+		mMyOverlay.runOnFirstFix(new Runnable() {
+
+			public void run() {
+
+				mMapController.animateTo(mMyOverlay.getMyLocation());
+
+			}
+		});
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public class ItemizedOverlay extends com.google.android.maps.ItemizedOverlay {
+
+		Context mContext = Map.this;
+		private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+
+		public ItemizedOverlay(Drawable defaultMarker) {
+			super(boundCenterBottom(defaultMarker));
+
+		}
+
+		public ItemizedOverlay(Drawable defaultMarker, Context context) {
+			super(defaultMarker);
+			mContext = context;
+		}
+
+		@Override
+		protected OverlayItem createItem(int i) {
+			return mOverlays.get(i);
+
+		}
+
+		@Override
+		public int size() {
+			return mOverlays.size();
+		}
+
+		public void addOverlay(OverlayItem overlay) {
+			mOverlays.add(overlay);
+			populate();
+		}
+		
+
+		@Override
+		protected boolean onTap(int index) {
+			OverlayItem item = mOverlays.get(index);
+			AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+			dialog.setTitle(item.getTitle());
+			dialog.setMessage(item.getSnippet());
+			dialog.show();
+			return true;
+
+		}
+
+	}
+
+	
+}

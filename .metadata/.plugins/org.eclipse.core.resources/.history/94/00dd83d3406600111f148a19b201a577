@@ -1,0 +1,37 @@
+package at.fhooe.mc.linzbrowser.android;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+public class HortAdapter extends ArrayAdapter<DataHort> {
+	private ArrayList<DataHort> items;
+
+	public HortAdapter(Context context, int id, int name,
+			ArrayList<DataHort> items) {
+		super(context, id, name, items);
+		this.items = items;
+
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+
+		View v = super.getView(position, convertView, parent);
+
+		TextView title = (TextView) v.findViewById(R.id.list_element_2_lines_title);
+		TextView sub = (TextView) v.findViewById(R.id.list_element_2_lines_sub);
+
+		title.setText(items.get(position).name);
+		sub.setText(items.get(position).address);
+
+		return v;
+	}
+	
+}
+
+

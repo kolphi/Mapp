@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent"
+	android:orientation="vertical"
+	android:layout_gravity="center_horizontal"
+	>
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		>
+		<Button 
+		    android:layout_height="fill_parent" 
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:text="Select POIs"
+			android:onClick="selectPOIs"
+		    />
+		<ImageButton 
+		    android:layout_height="wrap_content" 
+			android:layout_width="wrap_content"
+			android:src="@android:drawable/ic_menu_mylocation"
+			android:onClick="selectPOIs"
+		    />
+	</LinearLayout>
+	<com.google.android.maps.MapView
+		xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:id="@+id/mapview"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent"
+		android:clickable="true" 
+		android:apiKey="0gu7-sAhF-z24mELk0XuWdcbEZ3rhABJKdRnqRA"  
+	/>
+	<!-- Chris Debug Laptop: 0gu7-sAhF-z1kLxVifQpcUQ6LYS7KEInHu4x4rg  Chris Debug PC: 0gu7-sAhF-z24mELk0XuWdcbEZ3rhABJKdRnqRA-->
+</LinearLayout>

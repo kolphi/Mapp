@@ -1,0 +1,40 @@
+1330930878436	Rename local variable 'optionAdapter'
+1330931173449	Copy compilation unit
+1330931201716	Copy file
+1330931884230	Move compilation unit
+1330931891022	Move compilation unit
+1330931896088	Move compilation unit
+1330932816445	Rename field 'HORTE_KEY_ROWID'
+1330932830877	Rename field 'HORTE_KEY_NAME'
+1330932841061	Rename field 'HORTE_KEY_ADDRESS'
+1330932846584	Rename field 'HORTE_KEY_WEBSITE'
+1330932852494	Rename field 'HORTE_KEY_CATEGROY'
+1330932857129	Rename field 'HORTE_KEY_UNIQUE_ADDRESS'
+1330932861031	Rename field 'HORTE_KEY_X'
+1330932864660	Rename field 'HORTE_KEY_Y'
+1330932869003	Rename field 'HORTE_KEY_LAT'
+1330932875480	Rename field 'HORTE_KEY_LON'
+1330932925986	Rename method 'saveHort'
+1330933009586	Rename type 'DataHort'
+1330933064241	Rename local variable 'hort'
+1330933076193	Rename method 'saveHort'
+1330933114552	Rename method 'deleteAllHort'
+1330933266193	Rename type 'HortAdapter'
+1330933273778	Rename local variable 'hortAdapter'
+1330955710902	Rename type 'LinzBrowserActivity'
+1330956465349	Rename resource 'main.xml'
+1330956792562	Rename method 'deleteRunningGame'
+1330958403968	Move compilation unit
+1330958408358	Move compilation unit
+1330958418195	Rename package 'at.fhoe.mc.linzbrowser.android.activity'
+1330958434270	Rename package 'at.fhooe.mc.linzbrowser.android.activity'
+1330958447220	Rename package 'at.fhooe.mc.linzbrowser.android'
+1330958510544	Move compilation units
+1330958527887	Move compilation unit
+1330958543311	Delete element
+1331073013737	Rename local variable 'dialog'
+1331078180556	Delete element
+1331078374408	Rename type 'GeopointAdapter'
+1331078387735	Copy compilation unit
+1331078420094	Copy file
+1331080687180	Rename local variable 'dLng'

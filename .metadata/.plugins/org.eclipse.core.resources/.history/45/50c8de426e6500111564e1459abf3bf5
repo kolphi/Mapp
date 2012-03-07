@@ -1,0 +1,5 @@
+package at.fhooe.mc.linzbrowser.android;
+
+public class CSVReader {
+
+}
