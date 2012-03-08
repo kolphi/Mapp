@@ -24,27 +24,6 @@ public class DBGeopoints {
 	public static final String GP_KEY_LAT = "lat";
 	public static final String GP_KEY_LON = "lon";
 
-	public static final String EA_DATABASE_TABLE = "entered_alc";
-	public static final String EA_KEY_ROWID = "_id";
-	public static final String EA_KEY_NAME = "name";
-	public static final String EA_KEY_PERCENT = "percent";
-	public static final String EA_KEY_MIXING = "mixing";
-
-	private static final String AA_DATABASE_TABLE = "available_alc";
-	public static final String AA_KEY_ROWID = "_id";
-	public static final String AA_KEY_NAME = "name";
-	public static final String AA_KEY_PERCENT = "percent";
-	public static final String AA_KEY_MIXING = "mixing";
-
-	private static final String PG_DATABASE_TABLE = "prev_games";
-	public static final String PG_KEY_ROWID = "_id";
-	public static final String PG_KEY_NAME = "name";
-	public static final String PG_KEY_START_TIME = "start_time";
-	public static final String PG_KEY_END_TIME = "end_time";
-	public static final String PG_KEY_PERSON_COUNT = "person_count";
-	public static final String PG_KEY_SAVED = "saved";
-	public static final String PG_KEY_AV_GRAM = "av_gram";
-
 	private Context context;
 	private SQLiteDatabase db;
 	private DBGeopointsHelper dbGeopointsHelper;
@@ -108,35 +87,59 @@ public class DBGeopoints {
 		open();
 		Cursor c = db.query(RawDataProvider.prefNames[type], new String[] {
 				GP_KEY_ADDRESS, GP_KEY_CATEGROY, GP_KEY_LAT, GP_KEY_LON, GP_KEY_NAME, GP_KEY_ROWID, GP_KEY_UNIQUE_ADDRESS, GP_KEY_WEBSITE, GP_KEY_X, GP_KEY_Y },
-				null, null, null, null, null);
+				null, null, null, null, 
+				GP_KEY_NAME + " asc");
 		
 		if (c != null) {
 			c.moveToFirst();
-			
-			ArrayList<DataGeopoint> items = new ArrayList<DataGeopoint>();
-			DataGeopoint item;
-			
-			while(!c.isAfterLast()){
-				
-				item = new DataGeopoint(type,
-						c.getString(c.getColumnIndex(GP_KEY_NAME)),
-						c.getString(c.getColumnIndex(GP_KEY_ADDRESS)),
-						c.getString(c.getColumnIndex(GP_KEY_WEBSITE)),
-						c.getString(c.getColumnIndex(GP_KEY_CATEGROY)),
-						c.getString(c.getColumnIndex(GP_KEY_UNIQUE_ADDRESS)),
-						c.getInt(c.getColumnIndex(GP_KEY_X)),
-						c.getInt(c.getColumnIndex(GP_KEY_Y)),
-						c.getInt(c.getColumnIndex(GP_KEY_LAT)),
-						c.getInt(c.getColumnIndex(GP_KEY_LON)));
-				
-				items.add(item);
-				c.moveToNext();
-			}
-			c.close();
-			return items;
+			return getGeopoints(c, type);
 		}
 		
 		return null;
+	}
+
+	public ArrayList<DataGeopoint> searchAllGeopointsOfType(int type,
+			String query) {
+		
+		open();
+		Cursor c = db.query(RawDataProvider.prefNames[type], new String[] {
+				GP_KEY_ADDRESS, GP_KEY_CATEGROY, GP_KEY_LAT, GP_KEY_LON, GP_KEY_NAME, GP_KEY_ROWID, GP_KEY_UNIQUE_ADDRESS, GP_KEY_WEBSITE, GP_KEY_X, GP_KEY_Y },
+				GP_KEY_NAME	+ " LIKE '%" + query + "%'", 
+				null, null, null, 
+				GP_KEY_NAME + " asc");
+		
+		if (c != null) {
+			c.moveToFirst();
+			return getGeopoints(c, type);
+		}
+		
+		return null;
+		
+	}
+	
+	private ArrayList<DataGeopoint> getGeopoints(Cursor c, int type){
+		ArrayList<DataGeopoint> items = new ArrayList<DataGeopoint>();
+		DataGeopoint item;
+		
+		while(!c.isAfterLast()){
+			
+			item = new DataGeopoint(type,
+					c.getString(c.getColumnIndex(GP_KEY_NAME)),
+					c.getString(c.getColumnIndex(GP_KEY_ADDRESS)),
+					c.getString(c.getColumnIndex(GP_KEY_WEBSITE)),
+					c.getString(c.getColumnIndex(GP_KEY_CATEGROY)),
+					c.getString(c.getColumnIndex(GP_KEY_UNIQUE_ADDRESS)),
+					c.getInt(c.getColumnIndex(GP_KEY_X)),
+					c.getInt(c.getColumnIndex(GP_KEY_Y)),
+					c.getInt(c.getColumnIndex(GP_KEY_LAT)),
+					c.getInt(c.getColumnIndex(GP_KEY_LON)));
+			
+			items.add(item);
+			c.moveToNext();
+		}
+		c.close();
+		
+		return items;
 	}
 
 }

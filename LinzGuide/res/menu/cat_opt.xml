@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+	    android:id="@+id/cat_opt_map" 
+	    android:title="Show Map"
+	    android:icon="@drawable/btn_show_map"
+	    android:orderInCategory="1"
+        android:showAsAction="always"
+	    />
+    <item 
+	    android:id="@+id/cat_opt_search" 
+	    android:title="Search"
+	    android:icon="@drawable/btn_show_search"
+	    android:orderInCategory="0"
+        android:showAsAction="always"
+        android:actionViewClass="android.widget.SearchView"
+	    />
+    <item 
+	    android:id="@+id/cat_opt_update" 
+	    android:title="Update?"
+	    android:icon="@drawable/btn_show_update"
+	    android:orderInCategory="1"
+        android:showAsAction="never"
+        android:visible="false"
+	    />
+    <item 
+	    android:id="@+id/cat_opt_settings" 
+	    android:title="Settings"
+	    android:icon="@android:drawable/ic_menu_preferences"
+	    android:orderInCategory="1"
+        android:showAsAction="never"
+	    />
+</menu>

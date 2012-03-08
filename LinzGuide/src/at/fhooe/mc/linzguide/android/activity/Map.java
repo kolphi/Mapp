@@ -17,23 +17,25 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import at.fhooe.mc.linzguide.android.R;
+import at.fhooe.mc.linzguide.android.actionbar.ActionBarMapActivity;
 import at.fhooe.mc.linzguide.android.db.DBGeopoints;
 import at.fhooe.mc.linzguide.android.util.DataGeopoint;
 import at.fhooe.mc.linzguide.android.util.RawDataProvider;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-public class Map extends MapActivity {
+public class Map extends ActionBarMapActivity {
 
 	MapView mMapView;
 	MapController mMapController;
@@ -46,6 +48,8 @@ public class Map extends MapActivity {
 	
 	ItemizedOverlay itemizedoverlay;
 	List<Overlay> mapOverlays;
+	
+	int poiType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,11 +81,16 @@ public class Map extends MapActivity {
 		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		mapOverlays = mMapView.getOverlays();
 		
+		
+		which = new SparseBooleanArray();
 
 		if(getIntent().hasExtra("points")){
+			poiType = getIntent().getIntExtra("poiType", 0);
 			ArrayList<DataGeopoint> items = (ArrayList<DataGeopoint>) getIntent().getSerializableExtra("points");
 			
-			itemizedoverlay = new ItemizedOverlay(getResources().getDrawable(RawDataProvider.icons[ getIntent().getIntExtra("poiType", 0)]));
+			itemizedoverlay = new ItemizedOverlay(getResources().getDrawable(RawDataProvider.icons[poiType]));
+			
+			which.append(poiType, true);
 			
 			GeoPoint myGeo;
 			OverlayItem myItem;
@@ -95,9 +104,10 @@ public class Map extends MapActivity {
 		}
 		
 		if(getIntent().hasExtra("point")){
+			poiType = getIntent().getIntExtra("poiType", 0);
 			DataGeopoint items = (DataGeopoint) getIntent().getSerializableExtra("point");
 			
-			itemizedoverlay = new ItemizedOverlay(getResources().getDrawable(RawDataProvider.icons[ getIntent().getIntExtra("poiType", 0)]));
+			itemizedoverlay = new ItemizedOverlay(getResources().getDrawable(RawDataProvider.icons[poiType]));
 			
 			GeoPoint myGeo;
 			OverlayItem myItem;
@@ -111,6 +121,8 @@ public class Map extends MapActivity {
 			
 			mapOverlays.add(itemizedoverlay);
 		}
+		
+		setTitle("Map");
 
 	}
 	
@@ -136,15 +148,8 @@ public class Map extends MapActivity {
 		
 	}
 	
-	public void myPosition(final View view){
-		mMyOverlay.runOnFirstFix(new Runnable() {
-			public void run() {
-				mMapController.animateTo(mMyOverlay.getMyLocation());
-			}
-		});
-	}
-	
-	public void selectPOIs(final View view){
+	SparseBooleanArray which;
+	public void selectPOIs(){
 
 			final ListView list = new ListView(this);
 			list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -157,6 +162,12 @@ public class Map extends MapActivity {
 	    			RawDataProvider.catsNames);
 			
 			list.setAdapter(poiAdapter);
+			
+			if(which != null){
+				for(int i = 0; i<which.size(); i++){
+					list.setItemChecked(which.keyAt(i), true);
+				}
+			}
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Select the POIs to view:");
@@ -171,7 +182,8 @@ public class Map extends MapActivity {
 							
 							mapOverlays.clear();
 							
-							SparseBooleanArray which = list.getCheckedItemPositions();
+							which = new SparseBooleanArray();
+							which = list.getCheckedItemPositions();
 							
 							for(int i = 0; i<14; i++){
 								if(which.get(i)){
@@ -209,6 +221,45 @@ public class Map extends MapActivity {
 			alert.show();
 
 	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.map_opt, menu);
+		
+    	return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	Intent i;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                i = new Intent(this, POICategory.class);
+                i.putExtra("poiType", poiType);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                return true;
+            case R.id.map_opt_location:
+            	mMyOverlay.runOnFirstFix(new Runnable() {
+        			public void run() {
+        				mMapController.animateTo(mMyOverlay.getMyLocation());
+        			}
+        		});
+            	return true;
+            case R.id.map_opt_select_poi:
+            	selectPOIs();
+            	return true;
+            case R.id.map_opt_settings:
+    			//i = new Intent(this, SettingsMenu.class);
+    			//startActivity(i);
+            	return true;
+            	
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -266,9 +317,10 @@ public class Map extends MapActivity {
 				dialog.setMessage(item.getSnippet());
 			}
 			
-			dialog.setPositiveButton("Navigate here!", new OnClickListener() {
+			dialog.setPositiveButton("Route", new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + getNavigationString(item.getPoint()))); 
+					//Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + getNavigationString(item.getPoint()))); 
+					Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + getNavigationString(item.getPoint()))); 
 					startActivity(i);
 				}
 			});

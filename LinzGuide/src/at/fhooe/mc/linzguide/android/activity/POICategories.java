@@ -1,37 +1,44 @@
 package at.fhooe.mc.linzguide.android.activity;
 
-import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import at.fhooe.mc.linzguide.android.R;
+import at.fhooe.mc.linzguide.android.actionbar.ActionBarListActivity;
 import at.fhooe.mc.linzguide.android.adapter.CategoriesAdapter;
-import at.fhooe.mc.linzguide.android.adapter.CategoryAdapter;
-import at.fhooe.mc.linzguide.android.db.DBGeopoints;
 import at.fhooe.mc.linzguide.android.util.GeodataUpdater;
 import at.fhooe.mc.linzguide.android.util.RawDataProvider;
 
-public class POICategories extends ListActivity {
+public class POICategories extends ActionBarListActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.poi_cats);
         
+        setTitle("Kategorien");
+        
+        loadData();
     }
     
     
     @Override
     protected void onResume() {
-    	loadData();
+    	
+    	if(getIntent().hasExtra("update")){
+    		checkUpdateProgress();
+    		getIntent().removeExtra("update");
+    	}
+    	
     	super.onResume();
     }
     
@@ -49,17 +56,12 @@ public class POICategories extends ListActivity {
     	getListView().setAdapter(poiAdapter);
     }
     
-    public void checkForUpdate(final View view){
-    	checkUpdateProgress();
-    }
-    
     GeodataUpdater updater;
     boolean updateAvailable;
     
-    
     private void checkUpdateProgress(){
 		final ProgressDialog dialog = ProgressDialog.show(this, "",
-				"Check for updates ...", true, true);
+				"Checking for updates ...", true, true);
 
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
@@ -90,7 +92,7 @@ public class POICategories extends ListActivity {
     	progressBar = new ProgressDialog(this);
     	
 		progressBar.setCancelable(false);
-		progressBar.setMessage("Download Updates ...");
+		progressBar.setMessage("Downloading Updates ...");
 		progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressBar.setProgress(0);
 		progressBar.show();
@@ -110,9 +112,8 @@ public class POICategories extends ListActivity {
     			updater.updateData(progressBar);
     			
     			try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     			
@@ -129,6 +130,30 @@ public class POICategories extends ListActivity {
     	i.putExtra("poiType", position);
     	startActivity(i);
     	super.onListItemClick(l, v, position, id);
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.cats_opt, menu);
+		
+    	return super.onCreateOptionsMenu(menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	//Intent i;
+		switch (item.getItemId()) {
+		case R.id.cats_opt_update:
+			checkUpdateProgress();
+			break;
+		case R.id.cats_opt_settings:
+			//i = new Intent(this, SettingsMenu.class);
+			//startActivity(i);
+			break;
+		}
+    	return super.onOptionsItemSelected(item);
     }
    
 }

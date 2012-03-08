@@ -1,0 +1,20 @@
+<resources>
+
+    <style name="AppTheme" parent="android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        
+        <item name="android:listViewStyle">@style/Widget.ListView</item>
+    </style>
+
+    <style name="ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/lg_light_grey</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
+        <item name="android:icon">@drawable/logo</item>
+    </style>
+
+    <style name="ActionBarTitle">
+        <item name="android:textColor">@color/lg_pink</item>
+    </style>
+
+</resources>
