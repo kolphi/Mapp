@@ -2,10 +2,16 @@ package at.fhooe.mc.linzguide.android.activity;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.ClipData.Item;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,12 +32,16 @@ public class POICategory extends ActionBarListActivity {
 	DBGeopoints dbGeopoints;
 	ArrayList<DataGeopoint> items;
 	int poiType;
+	SharedPreferences preferences;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.poi_cat);
         
+        
+        // Initialize preferences
+   		preferences = PreferenceManager.getDefaultSharedPreferences(this);
         dbGeopoints = new DBGeopoints(getApplicationContext());
         
         poiType = getIntent().getIntExtra("poiType", 0);
@@ -140,8 +150,8 @@ public class POICategory extends ActionBarListActivity {
                 startActivity(i);
             	return true;
             case R.id.cat_opt_settings:
-    			//i = new Intent(this, SettingsMenu.class);
-    			//startActivity(i);
+    			i = new Intent(this, SettingsMenu.class);
+    			startActivity(i);
             	return true;
             	
             default:

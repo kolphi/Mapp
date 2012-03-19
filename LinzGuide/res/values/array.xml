@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="update_times">
+    	<item>Bei jedem Start</item>
+    	<item>Bei jedem 2. Start</item>
+    	<item>Bei jedem 5. Start</item>
+    	<item>Bei jedem 10. Start</item>
+    	<item>Nie</item>
+    </string-array>
+    
+</resources>

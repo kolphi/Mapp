@@ -149,8 +149,8 @@ public class POICategories extends ActionBarListActivity {
 			checkUpdateProgress();
 			break;
 		case R.id.cats_opt_settings:
-			//i = new Intent(this, SettingsMenu.class);
-			//startActivity(i);
+			Intent i = new Intent(this, SettingsMenu.class);
+			startActivity(i);
 			break;
 		}
     	return super.onOptionsItemSelected(item);

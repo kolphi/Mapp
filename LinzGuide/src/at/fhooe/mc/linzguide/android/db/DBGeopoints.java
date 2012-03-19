@@ -23,7 +23,13 @@ public class DBGeopoints {
 	public static final String GP_KEY_Y = "y";
 	public static final String GP_KEY_LAT = "lat";
 	public static final String GP_KEY_LON = "lon";
-
+	public static final String GP_KEY_SINGLEPRICE = "single_price";
+	public static final String GP_KEY_DOUBLEPRICE = "double_price";
+	public static final String GP_KEY_ROOMS = "rooms_number";
+	public static final String GP_KEY_DESCRIPTION = "description";
+	public static final String GP_KEY_TELEPHONE = "telephone";
+	
+	
 	private Context context;
 	private SQLiteDatabase db;
 	private DBGeopointsHelper dbGeopointsHelper;
@@ -57,7 +63,7 @@ public class DBGeopoints {
 		}
 	}
 
-	public void saveGeoPoint(int type, String name, String address, String website, String category, String uniqueAddress, int x, int y, int lat, int lon) {
+	public void saveGeoPoint(int type, String name, String address, String website, String category, String uniqueAddress, int x, int y, int lat, int lon, int rooms, double singlePrice, double doublePrice, String description, String telephone ) {
 		werte = new ContentValues();
 
 		werte.put(GP_KEY_NAME, name);
@@ -69,13 +75,19 @@ public class DBGeopoints {
 		werte.put(GP_KEY_Y, y);
 		werte.put(GP_KEY_LAT, lat);
 		werte.put(GP_KEY_LON, lon);
+		werte.put(GP_KEY_ROOMS, rooms);
+		werte.put(GP_KEY_SINGLEPRICE, singlePrice);
+		werte.put(GP_KEY_DOUBLEPRICE, doublePrice);
+		werte.put(GP_KEY_DESCRIPTION, description);
+		werte.put(GP_KEY_TELEPHONE, telephone);
+		
 		
 		open();
 		db.insert(RawDataProvider.prefNames[type], null, werte);
 	}
 	
 	public void saveGeoPoint(int type, DataGeopoint gp) {
-		saveGeoPoint(type, gp.name, gp.address, gp.website, gp.category, gp.uniqueAddress, gp.x, gp.y, gp.lat, gp.lon);
+		saveGeoPoint(type, gp.name, gp.address, gp.website, gp.category, gp.uniqueAddress, gp.x, gp.y, gp.lat, gp.lon, gp.rooms, gp.doublePrice, gp.singlePrice, gp.description, gp.telephone);
 	}
 	
 	public void deleteAllGeopointsOfType(int type) {
@@ -132,7 +144,12 @@ public class DBGeopoints {
 					c.getInt(c.getColumnIndex(GP_KEY_X)),
 					c.getInt(c.getColumnIndex(GP_KEY_Y)),
 					c.getInt(c.getColumnIndex(GP_KEY_LAT)),
-					c.getInt(c.getColumnIndex(GP_KEY_LON)));
+					c.getInt(c.getColumnIndex(GP_KEY_LON)),
+					c.getInt(c.getColumnIndex(GP_KEY_ROOMS)),
+					c.getInt(c.getColumnIndex(GP_KEY_DOUBLEPRICE)),
+					c.getInt(c.getColumnIndex(GP_KEY_SINGLEPRICE)),
+					c.getString(c.getColumnIndex(GP_KEY_DESCRIPTION)),
+					c.getString(c.getColumnIndex(GP_KEY_TELEPHONE)));
 			
 			items.add(item);
 			c.moveToNext();

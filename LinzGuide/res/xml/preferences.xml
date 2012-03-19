@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="Settings" android:key="preferences">
+    <PreferenceCategory android:title="Update-Einstellungen" android:key="updateSettings"  >
+        <CheckBoxPreference  android:title="Auto-Update" android:key="autoUpdate"/>
+        <ListPreference android:title="Update Intervall" android:key="updateIntervall" android:entries="@array/update_times"/>
+        <Preference android:title="Manuelles Update" android:key="manUpdate" android:id="@+id/manUpdate"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Programm-Einstellungen" android:key="settings">
+        <Preference android:title="GPS aktivieren" android:key="gpsStatus"/>
+        <Preference android:key="wifiStatus" android:title="Wifi aktivieren"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Sonstiges" android:key="about"><Preference android:title="About" android:key="about"/>
+    <Preference android:title="Rechtliche Hinweise" android:key="right"/>
+</PreferenceCategory>
+    
+
+</PreferenceScreen>

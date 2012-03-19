@@ -28,6 +28,7 @@
         <activity android:name=".activity.POICategory" ></activity>
         
         <uses-library android:name="com.google.android.maps" />
+        <activity android:name=".activity.SettingsMenu"></activity>
     </application>
 
 </manifest>

@@ -121,19 +121,19 @@ public class GeodataUpdater {
 				//Einrichtung;Adresse;Internet_Adresse;Kategorie;eindeutige_Adresse;X;Y;Lat;Lon
 			case RawDataProvider.PoiTypes.HORTE:
 				for(int j = 1; j < list.size(); j++){
-					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[2], list.get(j)[3], list.get(j)[4], list.get(j)[5], list.get(j)[6], list.get(j)[7], list.get(j)[8]));
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[2], list.get(j)[3], list.get(j)[4], list.get(j)[5], list.get(j)[6], list.get(j)[7], list.get(j)[8], "","","","",""));
 				}
 				break;
 				//Nummer;Latitude;Longitude;Name;Kurztext;Start im Jahr;Ende im Jahr;Stadt;Postleitzahl;Straße;Homepage
 			case RawDataProvider.PoiTypes.HOTSPOT:
 				for(int j = 1; j < list.size(); j++){
-					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[3], list.get(j)[9] + ", " + list.get(j)[8] + " " + list.get(j)[7], list.get(j)[10], "Hotspot", list.get(j)[9], "0", "0", list.get(j)[1], list.get(j)[2]));
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[3], list.get(j)[9] + ", " + list.get(j)[8] + " " + list.get(j)[7], list.get(j)[10], "Hotspot", list.get(j)[9], "0", "0", list.get(j)[1], list.get(j)[2], "","","","",""));
 				}
 				break;
 				//Einrichtung;Adresse;Kategorie;Internet_Adresse;X;Y;eindeutige_Adresse;Lat;Lon
 			case RawDataProvider.PoiTypes.VERANSTALTUNG:
 				for(int j = 1; j < list.size(); j++){
-					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[3], list.get(j)[2], list.get(j)[6], list.get(j)[4], list.get(j)[5], list.get(j)[7], list.get(j)[8]));
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[3], list.get(j)[2], list.get(j)[6], list.get(j)[4], list.get(j)[5], list.get(j)[7], list.get(j)[8], "","","","",""));
 				}
 				break;
 				//Einrichtung;Adresse;Internet_Adresse;Kategorie;X;Y;Lat;Lon
@@ -141,13 +141,28 @@ public class GeodataUpdater {
 			case RawDataProvider.PoiTypes.APOTHEKEN:
 			case RawDataProvider.PoiTypes.AMBULATORIEN:
 				for(int j = 1; j < list.size(); j++){
-					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[2], list.get(j)[3], "", list.get(j)[4], list.get(j)[5], list.get(j)[6], list.get(j)[7]));
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[2], list.get(j)[3], "", list.get(j)[4], list.get(j)[5], list.get(j)[6], list.get(j)[7], "","","","",""));
 				}
 				break;
+				
+				//Einrichtung;Beschreibung;Zimmer;SinglePrice;DoublePrice;lat;lon;eindeutige_adresse;website
+			case RawDataProvider.PoiTypes.HOTELS:
+				for(int j = 1; j < list.size(); j++){
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[8], list.get(j)[10], list.get(j)[2], list.get(j)[8],"","", list.get(j)[6], list.get(j)[7], list.get(j)[3],list.get(j)[5],list.get(j)[4],list.get(j)[1], list.get(j)[9]));
+				}
+				break;
+				
+				//Einrichtung;Beschreibung;Kategorie;Eintritt Vollpreis(doubleprice);Ermaeßigt(singleprice);Lat;Lon;eindeutige_Adresse;Telefon;Internet_Adresse;
+			case RawDataProvider.PoiTypes.SEHENSWUERDIGKEITEN:
+				for(int j = 1; j < list.size(); j++){
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[7], list.get(j)[9], list.get(j)[2], list.get(j)[7],"","", list.get(j)[5], list.get(j)[6],"", list.get(j)[3], list.get(j)[4],list.get(j)[1],list.get(j)[8]));
+				}
+				break;
+				
 				//Einrichtung;Adresse;Internet_Adresse;Kategorie;X;Y;eindeutige_Adresse;Lat;Lon
 			default:
 				for(int j = 1; j < list.size(); j++){
-					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[2], list.get(j)[3], list.get(j)[6], list.get(j)[4], list.get(j)[5], list.get(j)[7], list.get(j)[8]));
+					dbGeopoints.saveGeoPoint(id, new DataGeopoint(list.get(j)[0], list.get(j)[1], list.get(j)[2], list.get(j)[3], list.get(j)[6], list.get(j)[4], list.get(j)[5], list.get(j)[7], list.get(j)[8], "","","","",""));
 				}
 				break;	
 			}

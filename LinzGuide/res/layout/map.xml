@@ -12,7 +12,8 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent"
 		android:clickable="true" 
-		android:apiKey="0gu7-sAhF-z24mELk0XuWdcbEZ3rhABJKdRnqRA"  
+		android:apiKey="0FC5R6iRJwfVjkiR7n3RI6aFpWW3RNMMhyoL6Jw"  
 	/>
 	<!-- Chris Debug Laptop: 0gu7-sAhF-z1kLxVifQpcUQ6LYS7KEInHu4x4rg  Chris Debug PC: 0gu7-sAhF-z24mELk0XuWdcbEZ3rhABJKdRnqRA-->
+	<!-- Philipp Debug Laptop: 0FC5R6iRJwfVjkiR7n3RI6aFpWW3RNMMhyoL6Jw -->
 </LinearLayout>

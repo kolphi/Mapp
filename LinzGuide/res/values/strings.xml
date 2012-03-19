@@ -10,6 +10,8 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_search">Search</string>
     <string name="menu_share">Share</string>
+    <string name="text_about"/>
+    <string name="text_right">Alle Angaben ohne Gewähr. Für jegliche Schäden die durch den Gebrauch dieser Applikation verursacht werden übernehmen wir keine Haftung. Der Rechtsweg ist ausgeschlossen.</string>
     
 
 </resources>

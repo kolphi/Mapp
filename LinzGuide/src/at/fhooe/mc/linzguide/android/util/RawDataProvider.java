@@ -20,6 +20,9 @@ public class RawDataProvider {
 	    public final static int AMBULATORIEN = 11;
 	    public final static int KRABBELSTUBEN = 12;
 	    public final static int KINDERGARTEN = 13;
+	    public final static int HOTELS = 14;
+	    public final static int SEHENSWUERDIGKEITEN = 15;
+	    
 	}
 	
 	public static String[] prefNames = new String[]{
@@ -37,6 +40,8 @@ public class RawDataProvider {
 			"ambulatorien",
 			"krabbelstuben",
 			"kindergarten",
+			"Hotels",
+			"Sehenswürdigkeiten",
 			};
 	
 	public static String[] catsNames = new String[]{
@@ -54,6 +59,8 @@ public class RawDataProvider {
 			"Ambulatorien",
 			"Krabbelstuben",
 			"Kindergärten",
+			"Hotels",
+			"Sehenswürdigkeiten",
 			};
 	
 	public static int[] icons = new int[]{
@@ -71,6 +78,8 @@ public class RawDataProvider {
 		R.drawable.ambulatorien,
 		R.drawable.krabbelstuben,
 		R.drawable.kindergarten,
+		R.drawable.spielanlagen,
+		R.drawable.spielanlagen,
 		};
 	
 	public static String[] csvLinks = new String[]{
@@ -88,7 +97,9 @@ public class RawDataProvider {
 			"http://data.linz.gv.at/katalog/gesundheit/krankenanstalten/krankenhaeuser/POIS_Ambulatorien.csv",
 			"http://data.linz.gv.at/katalog/soziales_gesellschaft/kinder/kinderbetreuung/krabbelstuben/POIS_Krabbelstube.csv",
 			"http://data.linz.gv.at/katalog/soziales_gesellschaft/kinder/kinderbetreuung/kindergaerten/POIS_Kindergarten.csv",
-			};
+			
+			
+	};
 	
 	public static String[] jsonLinks = new String[]{
 			"http://ckan.data.linz.gv.at/api/rest/package/horte-standorte",

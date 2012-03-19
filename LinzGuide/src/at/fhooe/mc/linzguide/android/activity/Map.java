@@ -252,8 +252,8 @@ public class Map extends ActionBarMapActivity {
             	selectPOIs();
             	return true;
             case R.id.map_opt_settings:
-    			//i = new Intent(this, SettingsMenu.class);
-    			//startActivity(i);
+    			i = new Intent(this, SettingsMenu.class);
+    			startActivity(i);
             	return true;
             	
             default:
